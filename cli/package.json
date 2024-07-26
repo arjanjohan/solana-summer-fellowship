@@ -1,0 +1,25 @@
+{
+  "name": "solami",
+  "version": "1.0.0",
+  "description": "solana fellowship cli",
+  "main": "./bin/index.js",
+  "bin": {
+    "solami": "./bin/index.js"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "arjanjohan",
+  "license": "ISC",
+  "dependencies": {
+    "@solana/web3.js": "^1.30.0",
+    "commander": "^9.4.0",
+    "figlet": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "@types/node": "^20.14.12",
+    "typescript": "^5.5.4"
+  }
+}
