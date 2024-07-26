@@ -6,6 +6,7 @@
 build a cli wallet that generates a keypair and can handle airdrop/sending sol.
 
 #### Solution
+[Solution code](./s1-introduction)
 
 ```
   ____     ___    _          _      __  __   ___ 
