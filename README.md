@@ -2,11 +2,19 @@
 
 
 ## s1-introduction
-#### Assignment
-build a cli wallet that generates a keypair and can handle airdrop/sending sol.
 
-#### Solution
+Build a CLI wallet that generates a keypair and can handle airdrop/sending sol.
+
 [Solution code](./s1-introduction)
+
+### Installation
+To install the CLI wallet, navigate to the `s1-introduction` directory and run the following commands:
+```
+npm run build
+npm install -g
+```
+
+### Solution
 
 ```
   ____     ___    _          _      __  __   ___ 

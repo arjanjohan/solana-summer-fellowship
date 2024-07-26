@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -25,19 +26,19 @@ program
     .description("A simple CLI to interact with the Solana blockchain");
 program
     .command("generate")
-    .description("Generate a new Solana keypair")
+    .description("Generate a new Solana keypair and save it to keypair.json")
     .action(generateKeypair);
 program
     .command("airdrop")
-    .description("Request an airdrop from the Solana devnet")
+    .description("Request an airdrop of 2 SOL from the faucet")
     .action(airdrop);
 program
     .command("send <receiver> <amount>")
-    .description("Send SOL")
+    .description("Send SOL from the keypair in keypair.json to another address")
     .action(send);
 program
     .command("balance")
-    .description("View SOL balance")
+    .description("View SOL balance of the keypair in keypair.json")
     .action(balance);
 program.parse(process.argv);
 const options = program.opts();
@@ -50,13 +51,16 @@ const options = program.opts();
     console.log(data);
 });
 function generateKeypair() {
-    const keypair = web3_js_1.Keypair.generate();
-    const keypairData = {
-        publicKey: keypair.publicKey.toBase58(),
-        secretKey: Array.from(keypair.secretKey)
-    };
-    fs_1.default.writeFileSync("keypair.json", JSON.stringify(keypairData, null, 2));
-    console.log("Keypair generated and saved to keypair.json");
+    return __awaiter(this, void 0, void 0, function* () {
+        const keypairFile = "keypair.json";
+        const keypair = web3_js_1.Keypair.generate();
+        const keypairData = {
+            publicKey: keypair.publicKey.toBase58(),
+            secretKey: Array.from(keypair.secretKey)
+        };
+        fs_1.default.writeFileSync(keypairFile, JSON.stringify(keypairData, null, 2));
+        console.log("Keypair generated and saved to keypair.json");
+    });
 }
 function airdrop() {
     return __awaiter(this, void 0, void 0, function* () {

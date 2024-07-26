@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import { Command } from "commander";
 import figlet from "figlet";
 import fs from "fs";
@@ -17,25 +19,26 @@ program
 
 program
   .command("generate")
-  .description("Generate a new Solana keypair")
+  .description("Generate a new Solana keypair and save it to keypair.json")
   .action(generateKeypair);
 
 program
   .command("airdrop")
-  .description("Request an airdrop from the Solana devnet")
+  .description("Request an airdrop of 2 SOL from the faucet")
   .action(airdrop);
 
 program
   .command("send <receiver> <amount>")
-  .description("Send SOL")
+  .description("Send SOL from the keypair in keypair.json to another address")
   .action(send);
 
 program
   .command("balance")
-  .description("View SOL balance")
+  .description("View SOL balance of the keypair in keypair.json")
   .action(balance);
 
 program.parse(process.argv);
+
 
 const options = program.opts();
 
@@ -48,14 +51,18 @@ figlet("S O L A M I", function (err, data) {
   console.log(data);
 });
 
-function generateKeypair() {
+
+async function generateKeypair() {
+  const keypairFile = "keypair.json";
+  
+  
   const keypair = Keypair.generate();
   const keypairData = {
     publicKey: keypair.publicKey.toBase58(),
     secretKey: Array.from(keypair.secretKey)
   };
 
-  fs.writeFileSync("keypair.json", JSON.stringify(keypairData, null, 2));
+  fs.writeFileSync(keypairFile, JSON.stringify(keypairData, null, 2));
   console.log("Keypair generated and saved to keypair.json");
 }
 

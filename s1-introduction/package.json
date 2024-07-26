@@ -2,9 +2,9 @@
   "name": "solami",
   "version": "1.0.0",
   "description": "solana fellowship cli",
-  "main": "./bin/index.js",
+  "main": "./dist/index.js",
   "bin": {
-    "solami": "./bin/index.js"
+    "solami": "./dist/index.js"
   },
   "scripts": {
     "build": "npx tsc",
@@ -15,7 +15,8 @@
   "dependencies": {
     "@solana/web3.js": "^1.30.0",
     "commander": "^9.4.0",
-    "figlet": "^1.7.0"
+    "figlet": "^1.7.0",
+    "inquirer": "^10.1.2"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.8",
