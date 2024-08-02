@@ -32,24 +32,29 @@ program
   .description("Send SOL from the keypair in keypair.json to another address")
   .action(send);
 
-program
+  program
   .command("balance")
   .description("View SOL balance of the keypair in keypair.json")
   .action(balance);
 
+  program
+  .command("keypair")
+  .description("View the keypair in keypair.json")
+  .action(keypair);
+
 program.parse(process.argv);
 
 
-const options = program.opts();
+// const options = program.opts();
 
-figlet("S O L A M I", function (err, data) {
-  if (err) {
-    console.log("Something went wrong...");
-    console.dir(err);
-    return;
-  }
-  console.log(data);
-});
+// figlet("S O L A M I", function (err, data) {
+//   if (err) {
+//     console.log("Something went wrong...");
+//     console.dir(err);
+//     return;
+//   }
+//   console.log(data);
+// });
 
 
 async function generateKeypair() {
@@ -124,6 +129,17 @@ async function balance() {
   const balance = await connection.getBalance(address);
   console.log(`Balance for address ${address}} = ${balance}`);
   
+}
+
+async function keypair() {
+  const secretKey = new Uint8Array(readKeypair().secretKey);
+  const publicKey = Keypair.fromSecretKey((secretKey)).publicKey;
+  console.log(`Address = ${publicKey.toBase58()}`);
+  console.log(`Secret key = ${secretKey}`);
+  console.log(`Secret key = ${Keypair.fromSecretKey((secretKey)).secretKey}`);
+  
+  // console.log(`Private key = ${new TextEncoder().encode(secretKey, "hex")}`);
+
 }
 
 function readKeypair() {

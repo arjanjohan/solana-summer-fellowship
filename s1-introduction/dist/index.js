@@ -40,16 +40,20 @@ program
     .command("balance")
     .description("View SOL balance of the keypair in keypair.json")
     .action(balance);
+program
+    .command("keypair")
+    .description("View the keypair in keypair.json")
+    .action(keypair);
 program.parse(process.argv);
-const options = program.opts();
-(0, figlet_1.default)("S O L A M I", function (err, data) {
-    if (err) {
-        console.log("Something went wrong...");
-        console.dir(err);
-        return;
-    }
-    console.log(data);
-});
+// const options = program.opts();
+// figlet("S O L A M I", function (err, data) {
+//   if (err) {
+//     console.log("Something went wrong...");
+//     console.dir(err);
+//     return;
+//   }
+//   console.log(data);
+// });
 function generateKeypair() {
     return __awaiter(this, void 0, void 0, function* () {
         const keypairFile = "keypair.json";
@@ -116,6 +120,16 @@ function balance() {
         const connection = new web3_js_1.Connection(solana_endpoint);
         const balance = yield connection.getBalance(address);
         console.log(`Balance for address ${address}} = ${balance}`);
+    });
+}
+function keypair() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const secretKey = new Uint8Array(readKeypair().secretKey);
+        const publicKey = web3_js_1.Keypair.fromSecretKey((secretKey)).publicKey;
+        console.log(`Address = ${publicKey.toBase58()}`);
+        console.log(`Secret key = ${secretKey}`);
+        console.log(`Secret key = ${web3_js_1.Keypair.fromSecretKey((secretKey)).secretKey}`);
+        // console.log(`Private key = ${new TextEncoder().encode(secretKey, "hex")}`);
     });
 }
 function readKeypair() {
