@@ -1,6 +1,11 @@
-# token-program
+# s2-token-program
 
-This project is generated with the [create-solana-dapp](https://github.com/solana-developers/create-solana-dapp) generator.
+Build a web UI that can:
+- handle creation of a token
+- it's mint
+- transfer of that token
+- burning the token supply
+- and delegation the ata of this token to another public key.
 
 ## Getting Started
 
