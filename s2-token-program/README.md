@@ -1,26 +1,50 @@
-# s2-token-program
+# token-program
 
-Build a web UI that can handle creation of a token, it's mint, transfer of that token, burning the token supply, and delegation the ata of this token to another public key.
+This project is generated with the [create-solana-dapp](https://github.com/solana-developers/create-solana-dapp) generator.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node v18.18.0 or higher
+
+### Installation
+
+#### Clone the repo
+
+```shell
+git clone <repo-url>
+cd <repo-name>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Start the web app
 
-## Links
-[Vercel]()
+```
+npm run dev
+```
+
+## Apps
+
+### web
+
+This is a React app.
+
+#### Commands
+
+Start the web app
+
+```shell
+npm run dev
+```
+
+Build the web app
+
+```shell
+npm run build
+```
