@@ -13,6 +13,7 @@ import {
   createInitializeMintInstruction,
   getMinimumBalanceForRentExemptMint,
   TOKEN_PROGRAM_ID,
+  TOKEN_2022_PROGRAM_ID,
   MINT_SIZE,
   createTransferInstruction,
   createMintToCheckedInstruction,
@@ -49,25 +50,34 @@ export default function Page() {
       SystemProgram.createAccount({
         fromPubkey: publicKey,
         newAccountPubkey: mint.publicKey,
-        space: MINT_SIZE,
         lamports: lamports_value,
-        programId: TOKEN_PROGRAM_ID,
+        space: MINT_SIZE,
+        programId: TOKEN_2022_PROGRAM_ID,
       }),
       // init mint account
       createInitializeMintInstruction(
-        mint.publicKey, // mint pubkey
+        mint.publicKey,
         8, // decimals
         publicKey, // mint authority
-        publicKey // freeze authority (you can use `null` to disable it. when you disable it, you can't turn it on again)
+        publicKey // freeze authority
       )
     );
 
     console.log("Sending transaction...");
 
     try {
+
+      const latestBlockhash = await connection.getLatestBlockhash();
+      tx.feePayer = publicKey;
+      tx.recentBlockhash = latestBlockhash.blockhash;
+
+      let tx2 = await signTransaction!(tx);
+      console.log("tx2", tx2);
+      console.log("tx", tx);
       const signature = await sendTransaction(
-        tx,
+        tx2,
         connection,
+        {signers: [mint, mint],}
       );
       await connection.confirmTransaction(signature, 'processed');
 
