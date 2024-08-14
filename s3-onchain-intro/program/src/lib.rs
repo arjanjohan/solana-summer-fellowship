@@ -114,3 +114,8 @@ pub mod token_vault {
     }
 
 }
+#[error_code]
+pub enum ErrorCode {
+    #[msg("The specified token mint was not found in the vault.")]
+    TokenNotFound,
+}
