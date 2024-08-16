@@ -26,24 +26,6 @@ receiver.points.checked_add(amount)
 Not checking if caller is signer in the `transfer_points` function.
 
 
-```
-let sender = &mut ctx.accounts.sender;
-
-```
-
-#### Fix
-```
-let sender = &mut ctx.accounts.sender;
-if !sender.is_signer {
-    return Err(ProgramError::MissingSigner);
-}
-```
-
-
-### No restrictions on `remove_user`
-
-#### Problem
-
 
 ```
 pub fn remove_user(_ctx: Context<TransferPoints>, id:u32) -> Result<()> {
