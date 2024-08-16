@@ -20,12 +20,30 @@ sender.points.saturating_sub(amount);
 receiver.points.checked_add(amount)        
 ```
 
-### Missing signer check
-
+### Missing signer check `transfer_points`
+ 
 #### Problem
 Not checking if caller is signer in the `transfer_points` function.
 
 
+```
+let sender = &mut ctx.accounts.sender;
+
+```
+
+#### Fix
+```
+let sender = &mut ctx.accounts.sender;
+if !sender.is_signer {
+    return Err(ProgramError::MissingSigner);
+}
+```
+
+
+### Missing ownership check `remove_user`
+
+#### Problem
+Not checking if caller is owner of the `user` it tries to delete.
 
 ```
 pub fn remove_user(_ctx: Context<TransferPoints>, id:u32) -> Result<()> {
@@ -36,11 +54,13 @@ pub fn remove_user(_ctx: Context<TransferPoints>, id:u32) -> Result<()> {
 
 #### Fix
 
+- Change ctx from `Context<TransferPoints>` to `Context<RemoveUser>`.
+- Check if `user` is `signer`
 
 ```
-pub fn remove_user(_ctx: Context<TransferPoints>, id:u32) -> Result<()> {
-    if !owner.is_signer {
-        return Err(ProgramError::MissingSigner);
+pub fn remove_user(ctx: Context<RemoveUser>, id:u32) -> Result<()> {
+    if ctx.user != ctx.signer {
+        return Err(ProgramError::InvalidAdminAccount);
     }
     msg!("Account closed for user with id: {}", id);
     Ok(())
