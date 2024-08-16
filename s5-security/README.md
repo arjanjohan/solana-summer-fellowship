@@ -32,6 +32,7 @@ let sender = &mut ctx.accounts.sender;
 ```
 
 #### Fix
+Check is sender is signer.
 ```
 let sender = &mut ctx.accounts.sender;
 if !sender.is_signer {
@@ -68,6 +69,45 @@ pub fn remove_user(ctx: Context<RemoveUser>, id:u32) -> Result<()> {
 ```
 
 
+
+### Type confusion with `User` struct
+
+#### Problem
+
+```
+#[account]
+#[derive(Default)]
+pub struct User {
+    pub id: u32,
+    pub owner: Pubkey,
+    pub name: String,
+    pub points: u16,
+}
+```
+
+#### Fix
+
+Add a TYPE field which is a unique identifier for the User account type.
+
+```
+#[account]
+#[derive(Default)]
+pub struct User {
+    pub TYPE: u8, // <-- should contain a unique identifier for this account type
+    pub id: u32,
+    pub owner: Pubkey,
+    pub name: String,
+    pub points: u16,
+}
+```
+
+Whenever the User account type is used, do this check to make sure it is of the correct type.
+
+```
+if user.TYPE != Types::UserType {
+    return Err(ProgramError::InvalidAccountType); 
+}
+```
 
 
 
