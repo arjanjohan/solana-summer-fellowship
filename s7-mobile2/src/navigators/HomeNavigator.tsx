@@ -4,7 +4,8 @@ import { TopBar } from "../components/top-bar/top-bar-feature";
 import { HomeScreen } from "../screens/HomeScreen";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
-import BlankScreen from "../screens/BlankScreen";
+// import BlankScreen from "../screens/BlankScreen";
+import NftScreen from "../screens/NftScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,7 @@ export function HomeNavigator() {
                   color={color}
                 />
               );
-            case "Blank":
+            case "NFT":
               return (
                 <MaterialCommunityIcon
                   name={
@@ -45,7 +46,7 @@ export function HomeNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Blank" component={BlankScreen} />
+      <Tab.Screen name="NFT" component={NftScreen} />
     </Tab.Navigator>
   );
 }
