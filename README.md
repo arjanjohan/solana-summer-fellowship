@@ -1,40 +1,37 @@
 # Solana Summer Fellowship 2024 homework.
 
-
 ## s1-introduction
-
-Build a CLI wallet that generates a keypair and can handle airdrop/sending sol.
+**Assignment:** Build a CLI wallet that generates a keypair and can handle airdrop/sending sol.
 
 [Solution code](./s1-introduction)
+  
+## s2-token-program
+**Assignment:** Build a web UI that can:
+- handle creation of a token
+- it's mint
+- transfer of that token
+- burning the token supply
+- and delegation the ata of this token to another public key.
 
-### Installation
-To install the CLI wallet, navigate to the `s1-introduction` directory and run the following commands:
-```
-npm run build
-npm install -g
-```
+[Solution code](./s2-token-program)
+  
+## s3-onchain-intro
+**Assignment:** Build an asset manager’s vault, where customers can deposit SPL tokens of their choice. The vault manager should not be able to withdraw the vault’s funds.
 
-### Solution
+[Solution code](./s3-onchain-intro)
+  
+## s4-onchain
+**Assignment:**Build a native Solana program to create initialize an account, deposit SOL into it, and withdraw 10% of the deposited SOL at a given time from it.
 
-```
-  ____     ___    _          _      __  __   ___ 
- / ___|   / _ \  | |        / \    |  \/  | |_ _|
- \___ \  | | | | | |       / _ \   | |\/| |  | | 
-  ___) | | |_| | | |___   / ___ \  | |  | |  | | 
- |____/   \___/  |_____| /_/   \_\ |_|  |_| |___|
-                                                 
-Usage: index [options] [command]
+[Solution code](./s4-onchain)
+  
+## s5-introduction-to-program-security
+**Assignment:** Write a simple blog, or a README about the issues and how to fix them in [this Anchor program](https://github.com/GitBolt/insecure-program).
 
-A simple CLI to interact with the Solana blockchain
+[Solution code](./s5-security)
+  
+## s6-solana-pay
+**Assignment:** Build a Point-Of-Sale Web UI for adding products and checking out with Solana Pay. The payment confirmation should be displayed after checkout.
 
-Options:
-  -V, --version             output the version number
-  -h, --help                display help for command
-
-Commands:
-  generate                  Generate a new Solana keypair
-  airdrop                   Request an airdrop from the Solana devnet
-  send <receiver> <amount>  Send SOL
-  balance                   View SOL balance
-  help [command]            display help for command
-  ```
+[Solution code](./s6-solana-pay)
+  
