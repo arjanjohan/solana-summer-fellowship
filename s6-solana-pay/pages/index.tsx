@@ -8,24 +8,29 @@ import { encodeURL, findReference, validateTransfer } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 
 // CONSTANTS
-const myWallet = 'DemoKMZWkk483hX4mUrcJoo3zVvsKhm8XXs28TuwZw9H'; // Replace with your wallet address (this is the destination where the payment will be sent)
+const myWallet = '8hutE9EgX28yW4V2zdLG48cMc4kYQLMqtEqobsDQdsRK';
 const recipient = new PublicKey(myWallet);
 const label = 'Solana Summer Fellowship Shop';
 const memo = 'Memo: Fellowship Demo';
-const quicknodeEndpoint = 'https://example.solana-devnet.quiknode.pro/123456/'; // Replace with your QuickNode endpoint
+const quicknodeEndpoint = 'https://example.solana-devnet.quiknode.pro/123456/'; 
+
+const items = [
+  { id: 1, name: 'Mug', price: '0.1', image: '/assets/mug.jpeg' },
+  { id: 2, name: 'Shirt', price: '0.3', image: '/assets/longsleeve.jpeg' },
+  { id: 3, name: 'Cap', price: '0.2', image: '/assets/cap.jpeg' },
+];
 
 export default function Home() {
   const [qrCode, setQrCode] = useState<string>();
   const [reference, setReference] = useState<string>();
-  const [amount, setAmount] = useState<string>(''); // State to store the input amount
 
-  const handleGenerateClick = async () => {
+  const handleBuyClick = async (price: string) => {
     const res = await fetch('/api/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ amount }), // Send the amount to the backend
+      body: JSON.stringify({ amount: price }),
     });
     const { url, ref } = await res.json();
     console.log(url);
@@ -57,48 +62,56 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Fellowship Solana Pay Demo</title>
+        <title>Solana Fellowship Shop</title>
         <meta name="description" content="Solana Fellowship: Solana Pay" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-          <h1 className='text-2xl font-semibold'>Solana Pay Demo</h1>
+        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex ">
+          <h1 className='text-2xl font-semibold'>Solana Fellowship Shop</h1>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
+          {items.map((item) => (
+            <div key={item.id} className="flex flex-col items-center border p-4 rounded">
+              <Image
+                src={item.image}
+                alt={item.name}
+                width={200}
+                height={200}
+                priority
+              />
+              <h2 className="mt-2 text-lg font-semibold">{item.name}</h2>
+              <p className="mt-1 text-gray-500">{item.price} SOL</p>
+              <button
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+                onClick={() => handleBuyClick(item.price)}
+              >
+                Buy
+              </button>
+            </div>
+          ))}
         </div>
         {qrCode && (
-          <Image
-            src={qrCode}
-            style={{ position: "relative", background: "white" }}
-            alt="QR Code"
-            width={200}
-            height={200}
-            priority
-          />
-        )}
-        <div>
-          <input
-            type="number"
-            placeholder="Enter amount in SOL"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            style={{ marginBottom: '10px', padding: '10px' }}
-          />
-          <div>
-            <button
-              style={{ cursor: 'pointer', padding: '10px', marginRight: '10px' }}
-              onClick={handleGenerateClick}
-            >
-              Generate Solana Pay Order
-            </button>
-            {reference && <button
-              style={{ cursor: 'pointer', padding: '10px' }}
-              onClick={handleVerifyClick}
-            >
-              Verify Transaction
-            </button>}
+          <div className="mt-10">
+            <Image
+              src={qrCode}
+              style={{ position: "relative", background: "white" }}
+              alt="QR Code"
+              width={200}
+              height={200}
+              priority
+            />
           </div>
-        </div>
+        )}
+        {reference && (
+          <button
+            className="mt-4 px-4 py-2 bg-green-500 text-white rounded cursor-pointer"
+            onClick={handleVerifyClick}
+          >
+            Verify Transaction
+          </button>
+        )}
       </main>
     </>
   );
