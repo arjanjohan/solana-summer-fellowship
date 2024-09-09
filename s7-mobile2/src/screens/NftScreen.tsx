@@ -3,10 +3,10 @@ import { Text, Button } from "react-native-paper";
 import React, { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
-import Geolocation from '@react-native-community/geolocation';
 import { requestPermissions } from '../utils/requestPermissions';
-// import { create } from 'ipfs-http-client'; // this breaks upon initialize
-// import { RNCamera } from 'react-native-camera'; // this breaks the build
+
+import { check, request, PERMISSIONS } from 'react-native-permissions';
+
 
 import { useAuthorization } from "../utils/useAuthorization";
 
@@ -25,7 +25,10 @@ export default function NftScreen() {
 
   useEffect(() => {
     // Request permissions when component mounts
-    requestPermissions();
+    // requestPermissions();
+
+
+
     // Request location when component mounts
     // Geolocation.getCurrentPosition(
     //   (position) => {

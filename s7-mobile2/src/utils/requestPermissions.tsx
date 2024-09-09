@@ -1,8 +1,13 @@
-import { request, PERMISSIONS } from 'react-native-permissions';
+import { check, request, PERMISSIONS } from 'react-native-permissions';
 
 export const requestPermissions = async () => {
     try {
-        // const cameraPermission = await request(PERMISSIONS.ANDROID.CAMERA);
+        const permission = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        console.log("Permission: ", permission);
+        if (permission === 'granted') {
+            return;
+        }
+
         const locationPermission = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
         
         if (
