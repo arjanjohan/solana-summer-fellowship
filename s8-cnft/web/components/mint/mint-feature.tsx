@@ -7,9 +7,11 @@ import {
   createTree,
   findLeafAssetIdPda,
   mintV1,
+  mintToCollectionV1,
   mplBubblegum,
   parseLeafFromMintV1Transaction,
   verifyCollection,
+  
 } from '@metaplex-foundation/mpl-bubblegum';
 import {
   createNft,
@@ -38,6 +40,7 @@ export default function MintFeature() {
       setStatus('Please connect your wallet.');
       return;
     }
+    console.log('Creating cNFT...', selectedFile);
 
     if (!selectedFile) {
       setStatus('Please select an image file.');
@@ -68,13 +71,40 @@ export default function MintFeature() {
       });
       await createTreeTx.sendAndConfirm(umi);
 
+
       console.log('uploading Image...');
       // Convert the selected file to a format that can be uploaded
       const fileData = await selectedFile.arrayBuffer();
       const genericNftImageFile = createGenericFile(new Uint8Array(fileData), selectedFile.name);
       const nftImageUri = await umi.uploader.upload([genericNftImageFile]);
       console.log('Image uploaded:', nftImageUri);
-      console.log('Creating NFT...', selectedFile);
+      
+      // create collection
+      const collectionId = generateSigner(umi)
+
+      const collectionMetadata = {
+        name: 'arjanjohan',
+        image: nftImageUri[0],
+        externalUrl: 'https://twitter.com/arjanjohan',
+        properties: {
+          files: [
+            {
+              uri: nftImageUri[0],
+              type: selectedFile.type,
+            },
+          ],
+        },
+      }
+
+      const collectionMetadataUri = await umi.uploader.uploadJson(collectionMetadata)
+
+    await createNft(umi, {
+      mint: collectionId,
+      name: 'arjanjohan cNFT',
+      uri: 'https://www.example.com/collection.json',
+      isCollection: true,
+      sellerFeeBasisPoints: percentAmount(0),
+    }).sendAndConfirm(umi);
  
       console.log('Uploading metadata...');
       const nftMetadata = {
@@ -95,14 +125,15 @@ export default function MintFeature() {
       const newOwner = publicKey('GTM68MEW8XcLWo36rF2HjMe1DfzB8cnpq8YnWSfNU3on');
 
       console.log('Minting cNFT...');
-      const { signature } = await mintV1(umi, {
+      const { signature } = await mintToCollectionV1(umi, {
         leafOwner: newOwner,
         merkleTree: merkleTree.publicKey,
+        collectionMint: collectionId.publicKey,
         metadata: {
           name: 'arjanjohan cNFT',
           uri: nftMetadataUri,
           sellerFeeBasisPoints: 500,
-          collection: { key: merkleTree.publicKey, verified: false },
+          collection: { key: collectionId.publicKey, verified: false },
           creators: [
             { address: umi.identity.publicKey, verified: true, share: 100 },
           ],
