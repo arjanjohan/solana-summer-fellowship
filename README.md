@@ -35,3 +35,13 @@
 
 [Solution code](./s6-solana-pay)
   
+## s7-mobile
+**Assignment:** Build an app that captures an image through the camera, mints an NFT with that image, and adds the current location longitude, latitude in the metadata.
+
+[Solution code](./s7-mobile2)
+  
+## s6-cnft
+**Assignment:** Create a cNFT collection of your own profile picture and social links as metadata and airdrop it to other fellows.
+
+[Solution code](./s8-cnft)
+  
