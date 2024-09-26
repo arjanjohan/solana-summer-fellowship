@@ -40,8 +40,13 @@
 
 [Solution code](./s7-mobile2)
   
-## s6-cnft
+## s8-cnft
 **Assignment:** Create a cNFT collection of your own profile picture and social links as metadata and airdrop it to other fellows.
 
 [Solution code](./s8-cnft)
+  
+## demo-day-project
+**Assignment:** Demo day project
+
+[Solution code](./demo-day-project)
   
